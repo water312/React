@@ -1,0 +1,436 @@
+# React
+study
+React 관련 블로그
+https://react.vlpt.us/basic/12-variable-with-useRef.html
+jsp/react의 차이점
+
+DOM노드를 직접 조작하지않아도 된다
+
+데이터가 바뀔때, 이 요소를 이렇게 바꾸자<== jsp
+어떻게 바꿀지 고민하지 말고, 이전 뷰를 날린 다음 결과적으로 보여줘야하는 뷰를 
+다시 보여주자 <== react방식
+
+DOM을 처음부터 다시 그리지 않고 부분적으로만 업데이트 할 수 있게 한다
+
+라이브러리 vs 프레임워크
+
+프레임워크는 뼈대/틀 웹어플리케이션을 만들기 위한 뼈대/틀
+웹 어플리케이션을 만들기 위해 필요한 여러가지 기능들을 제공한다
+Web Application은 공턱적으로 어떤 기능이 필요할까??
+라우팅 : 어떤 url을 들어왔을때 특정페이지를 보여줘야해
+전역 상태관리 : 여러가지 페이지 상태관리
+API 호출 : 서버와의 통신
+빌드 시스템
+
+React는 UI라이브러리 이기 때문에 이와 같은 기능들을 직접 구현하거나 구축 해야 한다
+react-router
+redux/redux-thunk/recoil/redux-saga
+axios
+장점 : 각자 환경에 맞거나, 마음에 드는 라이브러리를 선택하여 시스템을 구축할 수 있다
+단점 : 여러가지 라이브러리를 접하고 배워야해서 초기 진입 장벽이 있다
+
+1단계 : HTML 파일에 DOM 컨테이너 설치
+<div id="follow_button_container"></div>
+2단계 : script 태그 추가하기
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+3단계 : React 컴포넌트 만들기
+<script src="follow_button.js"></script>
+
+
+React.createElement()함수에 대해서 더 알아보기
+
+const element = document.createElement(tagName,[option])
+지정한 tagName의 HTML 요소를 만들어서 반환
+
+const element = React.createElement(component, props, ...children)
+ReactElement를 반환
+component = 문자열 또는 리액트 컴포넌트
+문자열 일 때는 HTML 태그를 의미 ex) "div"
+리액트 컴포넌트 ex) FollowingButton
+
+props =  component가 가질수 있는 옵션들
+ex) style, className...
+
+...children = component가 감싸고 있는 내부 컴포넌트
+ex) following 등의 텍스트
+리액트 컴포넌트 ex) FollowingButton
+ex)React.createElement("p",null,"hello")
+
+ReactDOM.render()함수에 대해서 더 알아보기
+ReactElement를 루트의 DOM 노드에 렌더링 하기 위해서 사용
+
+CRA
+create-react-app
+
+JSX 자체가 표현식이기도 하다
+
+Component를 나누는것은 중요하다
+컴포넌트를 정의하는 가장 쉬운방법은 자바스크립트를 사용하는것이다
+
+props.children활용
+사용자 정의 컴포넌트가 일반적인 html태그의 구조와 비슷할때
+
+useState hook에 대해
+함수 컴포넌트는 그냥 함수다
+
+함수 컴포넌트에서 내부적으로 상태를 관리해야 하는일이 필요하다
+이를 하려면 import React, { useState } from "react";
+const [state 값 , setState 변경될 값] = useState(초기값설정)
+setState()는 컴포넌트의 re-rendering을 발생시킨다
+
+불변성(immutable)이란
+변하지 않는 성질
+
+프로그래밍에서 불변성을 지킨다 => 메모리 영역의 값을 직접적으로 변경하지 않는다
+불변성을 지키지 않고 ,메모리 영역의 값을 직접 변경하면 리액트는 state가 바뀌었다고 인지하지 못한다
+
+왜냐하면 리액트는 이전 state 와 이후 state를 비교 할때, 얕은 비교(Shallow Compare)를 하기 때문이다
+
+원시타입 vs 참조타입
+boolean, number, string vs Object
+불변성을 가지고 있다 vs 불변성을 가지고 있지 않다
+변수에 원시 타입의 값을 할당하면, 메모리에 값 자체가 저장된다 vs 변수에 참조 타입의 값을 할당하면, 메모리 값이 담긴 주소가 저장된다
+
+props 와 state 
+
+props 부모 컴포넌트가 자식 컴포넌트에게 전달 하는 값
+props 값을 자신(자식 컴포넌트)이 변경할 수 없음
+
+state 자신(컴포넌트)이 스스로 관리하는 상태값
+state 값을 자신이 변경할 수 있음
+
+공통점 props를 통해 값을 내려 받거나, 자신이 관리하고 있는 state가 변경되면 컴포넌트 렌더링이 발생한다
+
+state 심화
+
+setState는 비동기적으로 실행된다. 비동기적으로 실행되면서 발생하는 문제를 피할려면 setState에 함수로 넘겨주시면 된다
+
+Lifecycle(생명주기)
+
+컴포넌트가 처음으로 렌더링 될때 (=DOM에 mount) mount = DOM에 올라갔다라는 의미
+window.setInterval()
+
+컴포넌트가 DOM에서 빠졌을 때(=unmount)
+window.clearInterval()
+
+Effect Hook
+
+Effect Hook, 즉 useEffect는 함수 컴포넌트 내에서 이런 side effects를 수행할 수 있게 해줍니다
+
+Key는 왜 필요할까???
+
+이벤트 처리하기
+
+Form (폼)
+ex) <input><textarea><select> 
+
+폼과 제어 컴포넌트
+
+폼 다중입력다루기
+
+비제어 컴포넌트
+
+ref란
+
+state가 되어야하는것
+1. 부모로부터 props를 통해 전달되나요? 그럼 확실히 state가 아니다
+2. 시간이 지나도 변하지 않나요? 그럼 확실히 state가 아니다
+3. 컴포넌트 안의 다른 state나 props를 가지고 계산가능한가요? 그럼 state가 아니다
+
+React는 항상 컴포넌트 계층구조를 따라 아래로 내려가는 단방향 데이터흐름을 따른다
+
+React CSS
+composes : className; 이건 className에 정의한 스타일코드를 그대로 가져온다
+다른CSS파일에서 가져오는법
+composes : className from "./style.css" 이렇게 쓰면 댐
+
+App React로 프로젝트를 만들면 [name].module.css 네이밍 해야한다
+
+CSS-in-JS란
+외부의 파일에 CSS를 정의하는 대신에 JavaScript와 결합하는 패턴을 의미한다
+
+SPA
+전통적인 방식의 웹 애플리케이션은 어떤 단점을 가지고 있나
+서버의 부담이 크다
+속도가 느려질 수 있다
+페이지 이동 시 , 깜빡임이 발생한다
+그래서 url을 이동하더라도 새로운 HTML 을 서버에서 받지 말고 화면을 Client에서 그리자!(Client Side Rendering)
+React는 CSR기반으로 방식으로 동작하고 SPA를 만들수 있도록 지원함
+
+HTML은 하나지만 ,유저가 볼 수 있는 화면은 여러개여야 한다.
+
+History API
+사용자 방문 기록에서 앞뒤로 이동할 땐 back(), forward(),  go() 메서드를 사용합니다
+
+useParams
+<Route path="react/:docId" element = {<ReactDocPage />} />
+const params = useParams();
+{params.docId}
+내가 설정해둔 Id값을 ReactDocPage.js에서 params로 받아서 뿌려주는것
+useNavigate
+const navigate = useNavigate();
+<h5 onClick={() => navigate("/")}>logo</h5>
+클릭했을때 "/"처음 경로로 이동하게 첫화면으로 가게 하는것과 같음
+
+BrowserRouter
+<BrowserRouter>
+      <Routes>
+        <Route path="/" element = {<MainPage />} />
+        <Route path="tech" element = {<TechPage />}>
+          <Route path="javascript" element = {<JavascriptPage />} />
+          <Route path="react" element = {<ReactPage />} />
+          <Route path="react/:docId" element = {<ReactDocPage />} />
+        </Route>
+        <Route path="blog" element = {<BlogPage />} />
+      </Routes>
+</BrowserRouter>
+위에같이 사용해야함
+하나의페이지에서 계속 경로를 이동시킴 <a href= ""> a태그로 페이지를 이동시키면 계속 렌더링을 다시하게함
+그러므로 라우터사용이 용이하다
+
+<Route>
+  //라우터안에 새로운페이지경로를 설정하려면은 밑에있는 라우터 부모인 위에 JS파일에서 Outlet을 사용해야지 렌더링이 된다
+  <Route />
+</Route>
+
+IndexRoute란 부모의 라우터에서 자식의 라우터가 여러개있을때 만약에 이 url에 해당하지 않을때 default로 어떤 컴포넌트를 보여주게 함
+이 두가지 라우트에도 걸리지 않을때 이 컴포넌트를 렌더링 한다라는 의미
+default의미다
+
+Relative Link 대쉬보드 (/) 사용안해도댐
+Link는 html의 a태그라고 생각하면 된다 Link Component는 Router안에서만 동작한다
+
+비동기적이란
+어떤 코드를 비동기 방식으로 실행시키고 싶다!
+이코드의 실행이 완료될 때 까지 기다리지 않고, 다음 코드를 실행시킨다
+그리고 이 코드의 실행이 완료(성공 or)되면, 특정 코드를 실행시킨다
+
+new Promise((resolve, reject) => {
+//비동기 방식으로 실행시킬 코드
+})
+promise mdn문서 읽어보기!
+Promise를 정의하고 정의할때에 인자 값으로 resolve(res), reject(rej) 인자 값을 전달합니다. 그리고 안에서 res로 어떠한 값을 전달합니다. rej는 에러를 전달
+Promise 수행은 promise 객체를 담은 변수에 then을 사용하여 전달받은 data를 console.log(data)로 콘솔창에 출력하는 것을 볼 수 있습니다. then은 작업수행이 완료되면 실행이 되게 된다.
+
+promise를 then으로 체이닝했다라는 말은 promise결과에 따라서 결과가 성공인지 실패인지에 따라서
+어떤일을 실행할지 그다음에 무언가를 실행할것을 체이닝이라고 함
+then으로 체이닝하는것보다는 async/await 쓰는게 더 좋음
+
+async/await
+먼저 방법들을 설명하기에 앞서 콜백함수, promise, async/await 사용하는 이유는 비동기적 방식을 처리하는 방법들을
+사용하지 않는다면 콜백 함수의 과정이 끝나기 전에 다음 프로세스로 진행될 수 있기 때문입니다. 예를 들어서 동영상 파일을 불러와 웹에 띄워줄려고 하는데 여기서 비디오 파일을 불러오는 작업이 완료되지 않았는데 다음 프로세스로 넘어가 화면에 동영상 파일을 띄워줄려고 한다면,,??
+비동기적 처리 방식 사용 하지 않았을 때
+const video = 비디오 파일 불러오는중(...55%) -> 다음프로세스 실행 -> video 출력 -> 에러
+비동기적 처리 방식 사용
+const video = 비디오 파일 불러오는중(...55%) -> 비디오 파일 (100%) 가져왔음 -> 다음프로세스 실행 -> video 정상출력 
+
+Fetch API는 브라우저 내장 API이다
+
+Response.json()???
+
+Axios란
+JSON 데이터 자동 변환
+await res.json()이걸 안써도댐
+요청 및 응답 인터셉트
+
+Custom Hook??
+우리가 API호출을 조금더 효과적으로 하는방법들을 알려면 이걸 알아야함 이해해야함!
+우리가 알고 있는 React의 Hook함수들
+useState useEffect
+
+API호출
+해야할처리가 엄청 많다
+로딩 처리, 에러 핸들링....
+로딩처리 = API호출이 이루어지고 있는 동안 결과를 받기전까지 로딩바를 보여주면서 아직 뭔가를 로딩하고 있어
+라는것을 사용자에게 보여줘야하고 이 데이터 호출이 완료되고 나면은 응답받은 데이터를 보여주는 일을 컴포넌트에서 해야함
+
+const [loading, setLoading] = useState(false)
+
+useEffect(() => {
+//setLoading(true)
+//api호출
+//실행이 완료되면 setLoading(false)
+},[])
+
+useFetch??
+
+swr과 React-Query
+비동기로직을 쉽게 다루게해주는 라이브러리
+어플리케이션에서 상태를 어떻게 관리할것이냐까지 함!
+
+전역 상태 관리
+로그인한 유저 정보 / Theme style
+
+이 밖에도 웹 어플리케이션을 개발 하다보면 전역상태로 관리해야 하는 값이 많다
+
+Context에 대해 알아야함 React문서에서 찾아보기
+
+D컴포넌트는 무언가를 그려야하는 컴포넌트 이뭔가를 그려야하는 정보를 A컴포넌트가 가지고 있는 어떤 상태를 가지고 D에서 그려야한다
+알고있는 프롭스를 떠올려보자 계속 밑으로 내려야함
+A - B - C - D로 넘겨줘야만 D에서 가능
+B C가 만약에 자기한테는 필요가 없는데 D한테 전달을 해주기 위해서만 가지고 있어야함
+이런 구조는 그렇게 좋은 구조가 아니다
+이런 구조를 프롭스 딜링이라함
+A컴포넌트에서 A Context를 생성 
+
+언제 useState를 쓰냐 언제 useReducer 쓰냐?
+복잡한 state를 사용할때 reducer을 씀
+다음 state가 이전 state에 의존적인 경우에 useReducer를 선호
+setstate하는 로직이 복잡하면 useReducer을 사용하자
+
+Redux란
+서로 다른 환경에서 작동함 
+
+Redux Toolkit
+middle ware 중요
+
+createSlice 조각개념
+
+로그인 요청 -> 서버 응답 -> 응답 받은 유저 정보를 전역 스토어에 저장 
+1.컴포넌트의 useEffect내에서 API 호출하고, 응답 받은 결과를 스토어에 업데이트 한다
+dispatch({ type: "updateUser" : payload : { nickname: 김코딩, purchased: 패키지}})
+
+2.컴포넌트의 useEffet 내에서 dispatch ({type: "updateUser"})로 액션 객체만을 보내고,
+userStore의 reducer안에서 API를 호출하고, 응답 받은 결과를 스토어에 업데이트한다
+
+근데 2번은 불가능함 왜냐면 reducer는 순수함수 이기 때문임(동일한 인자가 주어졌을 때 항상 동일한 결과를 반환하는함수)
+
+middleware 중간에 껴있는 느낌
+action객체를 dispatch -> reducer -> store 업데이트
+action객체를 dispatch -> middleware -> reducer -> store 업데이트
+middleware : action 객체를 dispatch하고,Reducer가 해당 action객체에 대해 Store를 업데이트 ㅏ기 전에 추가적인 작업을 할수있게 도와줌
+ex) 비동기 처리, 로깅....
+redux-thunk : dispatch에 action객체가 아닌 thunk함수를 전달한다. 가장 간단해서 진입 장벽이 낮다
+redux-saga : generator를 활용한다. redux-thunk가 가지고 있는 몇 가지 아쉬움을 보완한다.
+redux-observable : RxJS를 기반으로 한다. 가장 진입 장벽이 높다
+
+그 외 여러가지 상태관리 도구들
+RECOIL : 리액트 팀에서 직접 만든 상태관리 라이브러리/ 비동기 데이터 통신을 위한 기능 제공/ React 내부에 접근이 가능하여 동시성 모드, Suspense등을 손쉽게 지원 가능
+JOTAI : Recoil에 영향을 받아 일본에서 만들어진 라이브러리
+CONSTATE : React Context + State / Context의 단점을 개선
+
+전역상태를 이렇게 관리하는게 맞을까???
+1. api 호출후 응답 데이터 -> server state
+2. UI 개발을 위한 데이터 ex)theme -> client state
+
+React Query
+
+처음 App.js 에서 import { QueryClientProvider, QueryClient } from 'react-query' 해주고
+맨위에 <QueryClientProvider client={queryClient}>이걸로 감싸주고
+reqct query를 쓸 곳에 가서 import { useQuery } from 'react-query' 임포트해주고 api가 들어있는걸 호출해서 import { getUser } from '../mocks/api'
+
+const { data, isLoading } = useQuery('@getUser', getUser); 로 데이터를 가져온뒤
+if (isLoading) return <span>Loading...</span>으로 로딩시 보여주고
+<h3>현재 닉네임: {data.nickName}</h3> 여기에 data.nickName해준다
+
+useMutation
+
+Mutation.isLoading
+Mutation.isError
+mutation.mutate
+
+axios.put << 무슨데이터를 수정할때 쓰는것
+export const updateNickname = (nickname) => {
+  return axios.put(`/update-nickname?nickname=${nickname}`);
+};
+queryClient로 mutation에서 onSuccess를 하면 getUser에있는 데이터 nickname을 가져와서 바로 화면에 띄워줌
+ import { useQuery, useMutation, useQueryClient } from 'react-query'
+  const queryClient = useQueryClient();
+  const mutation = useMutation(updateNickname, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("@getUser")
+    }
+  });
+
+React-Query의 cache: staleTime, cacheTime
+React-Query는 우리가 어떤 서버상태를 관리하기위해 전역으로 관리하고 있지 않음
+cache를 해두었다가 우리가 다시 데이터를 사용할수 있게끔 해주기
+A와 B 컴포넌트
+
+staleTime?
+cahceTime?
+react-query가 캐시를 함 그 캐시가 되어있는지 안되어있는지 기반으로 staleTime을 보고 그 데이터를 패치 할지 안할지 결정하는데
+그 reqct-query입장에서는 그 쿼리를 호출한 결과를 언제까지 캐시를 하고 있어야 하냐는 것
+모든 쿼리에 대해서 항상 어플리케이션이 돌아갈때마다 다 캐시하고 있으면 reqctquery 메모리가 무거워지겠지
+
+Suspense
+선언적으로 데이터를 비롯한 무엇이든 기다릴 수 있도록 해주는 새롱누 기능
+비동기 작업을 기다리는 데에도 사용될수있다
+
+react-query는 병렬적으로 나옴
+react-query를 suspense모드로 하면 병렬적으로 하지 않는다
+
+
+H6S9F937FX2LUE6TSK 달토끼 이모티콘
+
+useMemo, useCallback
+컴포넌트가 렌더링 되는시점
+자신의 state가 변경 되거나, 부모에게서 받는 props가 변경 되었을 때 마다 다시 렌더링 된다
+심지어 자식 컴포넌트에서 렌더링 최적화를 위한 별도의 코드를 추가하지 않으면, 부모에게서 받는 props가
+변경되지 않았더라도 다시 리렌더링 된다.
+
+함수 컴포넌트는 그냥 함수입니다. jsx를 반환할 뿐 입니다
+
+함수 컴포넌트가 렌더링 된다는 것은 누군가(부모 컴포넌트)가 그 함수를 호출하여 실행되는것이다
+
+함수가 실행될 때 마다 내부에 선언되어 있던 표현식(변수 등) 들도 매번 다시 계산 된다
+
+React.memo
+
+Code splitting(코드 분할)
+Dynamic import, React.lazy()
+번들이 거대해지는것을 방지하기 위한 좋은 해결방법은 번들을 나누는 것이다
+여러 번들을 동적으로 만들고 불러오는 것
+코드 분할은 앱을 지연 로딩 하게 도와주고 앱 사용자에게 획기적인 성능 향상을 하게 한다
+
+lazy를 쓰려면 Suspense를 같이 사용해야함
+
+const Post = lazy(() => import("./Post"));
+<ul>
+        {posts?.map((post) => (
+          <Post title={post.title} />
+        ))}
+</ul>
+이렇게 씀
+번들에 추가되지 않고 새로운 thunk가 동적으로 생성되서 속도가 빨라짐 웹페이지
+
+Server-Side Rendering
+React로 구현한 JavaScript 코드를 HTML로 변환해서 서버가 내려 준다.
+즉, 브라우저가 Javascript코드를 실행하지 않아도 화면을 그릴 수 있다
+React문서에서 ReactDOMServer보기
+이걸위해서 프레임워크를 쓰는게 효과적이다
+nextjs.org 사이트 ㄱㄱ
+최근에는 remix.run이 뜨긴함
+폴더하나를 만들어서 거기서 npm install next react react-dom을 설치한다음 npm update를 해주고 package.json에서
+확인을 한후에 npm run dev로 실행시켜준다
+nextjs는 page폴더를 만들고 page폴더에서 home.js나 index.js를 해주면 locallhost:3000/home 이게 페이지주소이다
+page폴더 밑에 my폴더를 만들고 account.js나 info.js를 만들어서 보니깐 locallhost:3000/my/info로 자동으로 주소가 저렇게 타고타고 생긴다
+
+개발자도구들어가서 source에 드가서 bundle생성을 보니 code split을 자동으로 해서 아주 좋음
+nextjs문서를 보기
+
+정리하기
+state
+props
+JSX
+Lifecycle
+useStaet()
+useEffect()
+component
+webpack
+Babel
+
+중반
+CSR과 SSR
+useRef
+전역상태관리
+컴포넌트 스타일링
+이벤트 처리하기
+리스트와 key
+비동기 프로그래밍과 API호출
+Form다루기
+SPA를 위한 라우팅 처리
+최적화(useMemo,useCallback) 리렌더링최적화
+
+React문서에서 Children에 대한 문서를 읽어보기 Children.map 사용가능
